@@ -4,12 +4,14 @@ body {
   font-family: "Poppins", sans-serif;
   color: $white;
   background-color: $black;
+  margin: 0;
+  padding: 0;
 }
 
 section {
   height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
 }
 
@@ -17,4 +19,91 @@ section {
   color: $turquoise;
   font-size: 3rem;
   font-weight: 600;
+}
+
+.segment {
+  width: 50%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 4rem 1rem 2rem;
+}
+
+.footer {
+  padding: 1rem 2rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  .link {
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 1.25rem;
+
+    &:not(:last-child) {
+      margin-right: 2rem;
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      font-size: 18px;
+    }
+
+    &:hover:before {
+      content: "•";
+    }
+  }
+}
+
+.hero {
+  background-image: url("https://storage.googleapis.com/static.mrbllab.com/images/marble-hero-right.png");
+  background-size: cover;
+  background-position: 0;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+}
+
+@media (orientation: landscape) {
+}
+
+@media (orientation: portrait) {
+  section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+
+  .segment {
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content {
+    padding: 1rem 4rem 1rem 1rem;
+  }
+
+  .hero {
+    background-image: url("https://storage.googleapis.com/static.mrbllab.com/images/marble-hero-top.png");
+    background-position: center bottom;
+  }
+
+  .footer {
+    padding: 1rem 2rem 6rem 1rem;
+  }
 }
