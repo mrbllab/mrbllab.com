@@ -1,0 +1,41 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+
+        - name: Install deps
+          run: npm ci
+
+        - name: Build app
+          run: npm run build
+
+        - name: Authenticate with gcloud
+          uses: google-github-actions/auth@v1
+          with:
+            credentials_json: ${{ secrets.GCP_DEPLOYER_KEY }}
+
+        - name: Build image
+          run: docker build -f docker/Dockerfile -t europe-central2-docker.pkg.dev/mrbllab-test/websites/mrbllab.com:${{ github.sha }} .
+
+        - name: Push image
+          run: |
+            gcloud auth configure-docker europe-central2-docker.pkg.dev
+            docker push europe-central2-docker.pkg.dev/mrbllab-test/websites/mrbllab.com:${{ github.sha }}
+
+        - name: Deploy to Cloud Run
+          uses: google-github-actions/deploy-cloudrun@v1
+          with:
+            image: europe-central2-docker.pkg.dev/mrbllab-test/websites/mrbllab.com:${{ github.sha }}
+            service: mrbllab-com
+            project_id: mrbllab-test
+            region: europe-west1

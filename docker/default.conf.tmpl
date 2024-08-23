@@ -1,0 +1,27 @@
+#!/bin/sh
+cat <<EOF
+server {
+    listen ${PORT:-80};
+    server_name _;
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 256;
+    gzip_proxied expired no-cache no-store private auth;
+    gzip_types text/plain text/css application/json application/x-javascript application/javascript text/xml application/xml application/xml+rss text/javascript;
+    root /srv;
+
+    location / {
+        try_files /\$uri /index.html =404;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+EOF
