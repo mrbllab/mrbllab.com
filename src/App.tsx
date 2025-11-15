@@ -1,6 +1,9 @@
 import AOS from "aos";
 import { Home } from "./pages"
 import { useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Support from "./pages/Support";
 
 const App = () => {
   useEffect(() => {
@@ -9,7 +12,11 @@ const App = () => {
     });
   }, []);
   return (
-    <Home />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/support" element={<Support />} />
+    </Routes>
   )
 }
 
